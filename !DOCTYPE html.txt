@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marshy Sweet - Candy Store & Bubble Tea</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        marshy: {
+                            pink: '#FF80AB',
+                            lightpink: '#FFA5C3',
+                            blue: '#81D4FA',
+                            lightblue: '#B3E5FC',
+                        }
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF9FB;
+        }
+        .candy-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .bubble-tea:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-marshy-pink to-marshy-blue shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Logo SVG -->
+                <svg class="w-12 h-12" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="#FFF" />
+                    <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Poppins" font-weight="bold" font-size="20" fill="#FF80AB">MS</text>
+                    <path d="M50 10 A40 40 0 1 1 49.9 10" fill="none" stroke="#81D4FA" stroke-width="5" stroke-dasharray="5,5" />
+                </svg>
+                <div class="ml-3">
+                    <h1 class="text-2xl font-bold text-white">Marshy Sweet</h1>
+                    <p class="text-xs text-white">Candy Store & Bubble Tea</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-white hover:text-marshy-lightblue font-medium">Home</a>
+                <a href="#candy" class="text-white hover:text-marshy-lightblue font-medium">Candy</a>
+                <a href="#bubbletea" class="text-white hover:text-marshy-lightblue font-medium">Bubble Tea</a>
+                <a href="#contact" class="text-white hover:text-marshy-lightblue font-medium">Contact</a>
+            </nav>
+            <div class="flex items-center">
+                <button id="cartBtn" class="bg-white text-marshy-pink p-2 rounded-full shadow-md hover:bg-marshy-lightpink hover:text-white transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span id="cartCount" class="absolute -mt-8 ml-4 bg-marshy-blue text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
+                </button>
+                <button class="md:hidden ml-4 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-b from-marshy-lightpink to-white py-16">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h2 class="text-4xl md:text-5xl font-bold text-marshy-pink mb-4">Sweet Treats & Bubble Tea</h2>
+                <p class="text-gray-700 mb-6">Indulge in our premium candy selection and refreshing bubble tea. Order online for pickup or delivery!</p>
+                <div class="flex space-x-4">
+                    <a href="#candy" class="bg-marshy-pink hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition">Shop Candy</a>
+                    <a href="#bubbletea" class="bg-marshy-blue hover:bg-blue-400 text-white font-bold py-3 px-6 rounded-full shadow-lg transition">Bubble Tea</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <!-- Candy jar SVG -->
+                    <svg width="300" height="300" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Jar -->
+                        <path d="M50 60 L50 180 Q50 190, 60 190 L140 190 Q150 190, 150 180 L150 60 Z" fill="#E1F5FE" stroke="#81D4FA" stroke-width="2" />
+                        <!-- Jar lid -->
+                        <path d="M45 60 Q45 50, 55 50 L145 50 Q155 50, 155 60 L155 65 Q155 70, 150 70 L50 70 Q45 70, 45 65 Z" fill="#81D4FA" stroke="#4FC3F7" stroke-width="2" />
+                        
+                        <!-- Candies -->
+                        <circle cx="70" cy="90" r="8" fill="#FF80AB" />
+                        <circle cx="100" cy="100" r="10" fill="#FFA5C3" />
+                        <circle cx="130" cy="95" r="9" fill="#FF80AB" />
+                        <circle cx="80" cy="120" r="12" fill="#B3E5FC" />
+                        <circle cx="115" cy="130" r="10" fill="#81D4FA" />
+                        <circle cx="90" cy="150" r="8" fill="#FF80AB" />
+                        <circle cx="125" cy="160" r="11" fill="#FFA5C3" />
+                        <circle cx="65" cy="170" r="9" fill="#B3E5FC" />
+                        <circle cx="105" cy="175" r="7" fill="#81D4FA" />
+                        <circle cx="140" cy="145" r="8" fill="#FF80AB" />
+                    </svg>
+                    
+                    <!-- Bubble Tea SVG -->
+                    <svg width="150" height="200" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 50px; right: -50px;">
+                        <!-- Cup -->
+                        <path d="M30 30 L25 130 Q25 140, 35 140 L65 140 Q75 140, 75 130 L70 30 Z" fill="#FFF" stroke="#DDD" stroke-width="1" />
+                        <!-- Tea -->
+                        <path d="M30 30 L25 130 Q25 140, 35 140 L65 140 Q75 140, 75 130 L70 30 Z" fill="#FFA5C3" fill-opacity="0.7" stroke="none" />
+                        <!-- Lid -->
+                        <path d="M25 30 L75 30 L72 20 L28 20 Z" fill="#FF80AB" stroke="#FF80AB" stroke-width="1" />
+                        <!-- Straw -->
+                        <path d="M50 15 L50 120" stroke="#81D4FA" stroke-width="6" stroke-linecap="round" />
+                        <!-- Bubbles -->
+                        <circle cx="40" cy="125" r="4" fill="#333" />
+                        <circle cx="50" cy="130" r="4" fill="#333" />
+                        <circle cx="60" cy="125" r="4" fill="#333" />
+                        <circle cx="45" cy="115" r="4" fill="#333" />
+                        <circle cx="55" cy="120" r="4" fill="#333" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decorative elements -->
+        <div class="hidden md:block absolute top-10 left-10">
+            <svg width="50" height="50" viewBox="0 0 50 50">
+                <circle cx="25" cy="25" r="10" fill="#FF80AB" opacity="0.5" />
+            </svg>
+        </div>
+        <div class="hidden md:block absolute bottom-10 right-20">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+                <circle cx="35" cy="35" r="15" fill="#81D4FA" opacity="0.5" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Candy Section -->
+    <section id="candy" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-marshy-pink mb-2">Premium Candy Selection</h2>
+                <p class="text-gray-600">Choose from our wide variety of candies sold by the pound</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Candy Item 1 -->
+                <div class="candy-item bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightpink flex items-center justify-center">
+                        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" fill="#FF80AB" />
+                            <circle cx="50" cy="50" r="35" fill="#FFA5C3" />
+                            <path d="M30 50 Q50 30, 70 50 Q50 70, 30 50" fill="#FFF" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Gummy Bears</h3>
+                        <p class="text-gray-600 mb-4">Colorful, chewy gummy bears in assorted fruit flavors.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-marshy-pink font-bold">$8.99/lb</span>
+                            <button class="add-to-cart bg-marshy-blue hover:bg-blue-400 text-white py-2 px-4 rounded-full" 
+                                    data-id="1" 
+                                    data-name="Gummy Bears" 
+                                    data-price="8.99" 
+                                    data-type="candy">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Candy Item 2 -->
+                <div class="candy-item bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightblue flex items-center justify-center">
+                        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="20" y="30" width="60" height="40" rx="5" fill="#81D4FA" />
+                            <rect x="25" y="35" width="50" height="30" rx="3" fill="#B3E5FC" />
+                            <text x="50" y="55" font-family="Arial" font-size="12" text-anchor="middle" fill="#FFF">SOUR</text>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Sour Belts</h3>
+                        <p class="text-gray-600 mb-4">Colorful sour belts with a tangy, fruity flavor.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-marshy-pink font-bold">$9.99/lb</span>
+                            <button class="add-to-cart bg-marshy-blue hover:bg-blue-400 text-white py-2 px-4 rounded-full" 
+                                    data-id="2" 
+                                    data-name="Sour Belts" 
+                                    data-price="9.99" 
+                                    data-type="candy">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Candy Item 3 -->
+                <div class="candy-item bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightpink flex items-center justify-center">
+                        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="30" fill="#FF80AB" />
+                            <circle cx="50" cy="50" r="25" fill="#FFF" stroke="#FF80AB" stroke-width="2" stroke-dasharray="5,5" />
+                            <circle cx="50" cy="50" r="15" fill="#FF80AB" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Peppermint Swirls</h3>
+                        <p class="text-gray-600 mb-4">Classic red and white peppermint hard candies.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-marshy-pink font-bold">$7.99/lb</span>
+                            <button class="add-to-cart bg-marshy-blue hover:bg-blue-400 text-white py-2 px-4 rounded-full" 
+                                    data-id="3" 
+                                    data-name="Peppermint Swirls" 
+                                    data-price="7.99" 
+                                    data-type="candy">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Candy Item 4 -->
+                <div class="candy-item bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightblue flex items-center justify-center">
+                        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="25" y="30" width="50" height="40" rx="5" fill="#81D4FA" />
+                            <rect x="30" y="35" width="40" height="30" rx="3" fill="#B3E5FC" />
+                            <path d="M35 45 L65 45 L65 55 L35 55 Z" fill="#FFF" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Chocolate Mints</h3>
+                        <p class="text-gray-600 mb-4">Refreshing chocolate-covered mint candies.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-marshy-pink font-bold">$12.99/lb</span>
+                            <button class="add-to-cart bg-marshy-blue hover:bg-blue-400 text-white py-2 px-4 rounded-full" 
+                                    data-id="4" 
+                                    data-name="Chocolate Mints" 
+                                    data-price="12.99" 
+                                    data-type="candy">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Candy Item 5 -->
+                <div class="candy-item bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightpink flex items-center justify-center">
+                        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="50,20 65,40 85,45 70,65 75,85 50,75 25,85 30,65 15,45 35,40" fill="#FFA5C3" />
+                            <polygon points="50,30 60,45 75,48 65,62 68,77 50,70 32,77 35,62 25,48 40,45" fill="#FF80AB" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Cotton Candy Bites</h3>
+                        <p class="text-gray-600 mb-4">Melt-in-your-mouth cotton candy flavored treats.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-marshy-pink font-bold">$10.99/lb</span>
+                            <button class="add-to-cart bg-marshy-blue hover:bg-blue-400 text-white py-2 px-4 rounded-full" 
+                                    data-id="5" 
+                                    data-name="Cotton Candy Bites" 
+                                    data-price="10.99" 
+                                    data-type="candy">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Candy Item 6 -->
+                <div class="candy-item bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightblue flex items-center justify-center">
+                        <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="35" cy="40" r="15" fill="#B3E5FC" />
+                            <circle cx="65" cy="40" r="15" fill="#81D4FA" />
+                            <circle cx="50" cy="60" r="15" fill="#B3E5FC" />
+                            <circle cx="35" cy="40" r="10" fill="#FFF" opacity="0.5" />
+                            <circle cx="65" cy="40" r="10" fill="#FFF" opacity="0.5" />
+                            <circle cx="50" cy="60" r="10" fill="#FFF" opacity="0.5" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Blueberry Bonbons</h3>
+                        <p class="text-gray-600 mb-4">Sweet blueberry-flavored chewy candies.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-marshy-pink font-bold">$11.99/lb</span>
+                            <button class="add-to-cart bg-marshy-blue hover:bg-blue-400 text-white py-2 px-4 rounded-full" 
+                                    data-id="6" 
+                                    data-name="Blueberry Bonbons" 
+                                    data-price="11.99" 
+                                    data-type="candy">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bubble Tea Section -->
+    <section id="bubbletea" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-marshy-blue mb-2">Refreshing Bubble Tea</h2>
+                <p class="text-gray-600">Available in 12oz and 16oz sizes - Pickup Only</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Bubble Tea 1 -->
+                <div class="bubble-tea bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightpink flex items-center justify-center">
+                        <svg width="80" height="150" viewBox="0 0 80 150" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cup -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FFF" stroke="#DDD" stroke-width="1" />
+                            <!-- Tea -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FF80AB" fill-opacity="0.7" stroke="none" />
+                            <!-- Lid -->
+                            <path d="M15 30 L65 30 L62 20 L18 20 Z" fill="#FF80AB" stroke="#FF80AB" stroke-width="1" />
+                            <!-- Straw -->
+                            <path d="M40 15 L40 120" stroke="#81D4FA" stroke-width="6" stroke-linecap="round" />
+                            <!-- Bubbles -->
+                            <circle cx="30" cy="125" r="4" fill="#333" />
+                            <circle cx="40" cy="130" r="4" fill="#333" />
+                            <circle cx="50" cy="125" r="4" fill="#333" />
+                            <circle cx="35" cy="115" r="4" fill="#333" />
+                            <circle cx="45" cy="120" r="4" fill="#333" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Strawberry Milk Tea</h3>
+                        <p class="text-gray-600 mb-4">Sweet strawberry milk tea with tapioca pearls.</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-marshy-blue font-bold">12oz: $5.99</span><br>
+                                <span class="text-marshy-blue font-bold">16oz: $6.99</span>
+                            </div>
+                            <div>
+                                <select class="size-select border rounded p-2 text-sm" data-id="7" data-name="Strawberry Milk Tea">
+                                    <option value="12oz-5.99">12oz - $5.99</option>
+                                    <option value="16oz-6.99">16oz - $6.99</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="add-to-cart w-full bg-marshy-pink hover:bg-pink-600 text-white py-2 px-4 rounded-full" 
+                                data-id="7" 
+                                data-name="Strawberry Milk Tea" 
+                                data-type="drink">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bubble Tea 2 -->
+                <div class="bubble-tea bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightblue flex items-center justify-center">
+                        <svg width="80" height="150" viewBox="0 0 80 150" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cup -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FFF" stroke="#DDD" stroke-width="1" />
+                            <!-- Tea -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#81D4FA" fill-opacity="0.7" stroke="none" />
+                            <!-- Lid -->
+                            <path d="M15 30 L65 30 L62 20 L18 20 Z" fill="#81D4FA" stroke="#81D4FA" stroke-width="1" />
+                            <!-- Straw -->
+                            <path d="M40 15 L40 120" stroke="#FF80AB" stroke-width="6" stroke-linecap="round" />
+                            <!-- Bubbles -->
+                            <circle cx="30" cy="125" r="4" fill="#333" />
+                            <circle cx="40" cy="130" r="4" fill="#333" />
+                            <circle cx="50" cy="125" r="4" fill="#333" />
+                            <circle cx="35" cy="115" r="4" fill="#333" />
+                            <circle cx="45" cy="120" r="4" fill="#333" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Taro Milk Tea</h3>
+                        <p class="text-gray-600 mb-4">Creamy taro flavored milk tea with tapioca pearls.</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-marshy-blue font-bold">12oz: $5.99</span><br>
+                                <span class="text-marshy-blue font-bold">16oz: $6.99</span>
+                            </div>
+                            <div>
+                                <select class="size-select border rounded p-2 text-sm" data-id="8" data-name="Taro Milk Tea">
+                                    <option value="12oz-5.99">12oz - $5.99</option>
+                                    <option value="16oz-6.99">16oz - $6.99</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="add-to-cart w-full bg-marshy-pink hover:bg-pink-600 text-white py-2 px-4 rounded-full" 
+                                data-id="8" 
+                                data-name="Taro Milk Tea" 
+                                data-type="drink">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bubble Tea 3 -->
+                <div class="bubble-tea bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-b from-marshy-lightpink to-marshy-lightblue flex items-center justify-center">
+                        <svg width="80" height="150" viewBox="0 0 80 150" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cup -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FFF" stroke="#DDD" stroke-width="1" />
+                            <!-- Tea -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#A5D6A7" fill-opacity="0.7" stroke="none" />
+                            <!-- Lid -->
+                            <path d="M15 30 L65 30 L62 20 L18 20 Z" fill="#A5D6A7" stroke="#A5D6A7" stroke-width="1" />
+                            <!-- Straw -->
+                            <path d="M40 15 L40 120" stroke="#FF80AB" stroke-width="6" stroke-linecap="round" />
+                            <!-- Bubbles -->
+                            <circle cx="30" cy="125" r="4" fill="#333" />
+                            <circle cx="40" cy="130" r="4" fill="#333" />
+                            <circle cx="50" cy="125" r="4" fill="#333" />
+                            <circle cx="35" cy="115" r="4" fill="#333" />
+                            <circle cx="45" cy="120" r="4" fill="#333" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Matcha Milk Tea</h3>
+                        <p class="text-gray-600 mb-4">Authentic matcha green tea with milk and tapioca pearls.</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-marshy-blue font-bold">12oz: $5.99</span><br>
+                                <span class="text-marshy-blue font-bold">16oz: $6.99</span>
+                            </div>
+                            <div>
+                                <select class="size-select border rounded p-2 text-sm" data-id="9" data-name="Matcha Milk Tea">
+                                    <option value="12oz-5.99">12oz - $5.99</option>
+                                    <option value="16oz-6.99">16oz - $6.99</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="add-to-cart w-full bg-marshy-pink hover:bg-pink-600 text-white py-2 px-4 rounded-full" 
+                                data-id="9" 
+                                data-name="Matcha Milk Tea" 
+                                data-type="drink">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bubble Tea 4 -->
+                <div class="bubble-tea bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightpink flex items-center justify-center">
+                        <svg width="80" height="150" viewBox="0 0 80 150" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cup -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FFF" stroke="#DDD" stroke-width="1" />
+                            <!-- Tea -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FFCC80" fill-opacity="0.7" stroke="none" />
+                            <!-- Lid -->
+                            <path d="M15 30 L65 30 L62 20 L18 20 Z" fill="#FFCC80" stroke="#FFCC80" stroke-width="1" />
+                            <!-- Straw -->
+                            <path d="M40 15 L40 120" stroke="#81D4FA" stroke-width="6" stroke-linecap="round" />
+                            <!-- Bubbles -->
+                            <circle cx="30" cy="125" r="4" fill="#333" />
+                            <circle cx="40" cy="130" r="4" fill="#333" />
+                            <circle cx="50" cy="125" r="4" fill="#333" />
+                            <circle cx="35" cy="115" r="4" fill="#333" />
+                            <circle cx="45" cy="120" r="4" fill="#333" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Brown Sugar Milk Tea</h3>
+                        <p class="text-gray-600 mb-4">Rich brown sugar milk tea with caramelized tapioca pearls.</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-marshy-blue font-bold">12oz: $5.99</span><br>
+                                <span class="text-marshy-blue font-bold">16oz: $6.99</span>
+                            </div>
+                            <div>
+                                <select class="size-select border rounded p-2 text-sm" data-id="10" data-name="Brown Sugar Milk Tea">
+                                    <option value="12oz-5.99">12oz - $5.99</option>
+                                    <option value="16oz-6.99">16oz - $6.99</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="add-to-cart w-full bg-marshy-pink hover:bg-pink-600 text-white py-2 px-4 rounded-full" 
+                                data-id="10" 
+                                data-name="Brown Sugar Milk Tea" 
+                                data-type="drink">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bubble Tea 5 -->
+                <div class="bubble-tea bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-marshy-lightblue flex items-center justify-center">
+                        <svg width="80" height="150" viewBox="0 0 80 150" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cup -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FFF" stroke="#DDD" stroke-width="1" />
+                            <!-- Tea -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#CE93D8" fill-opacity="0.7" stroke="none" />
+                            <!-- Lid -->
+                            <path d="M15 30 L65 30 L62 20 L18 20 Z" fill="#CE93D8" stroke="#CE93D8" stroke-width="1" />
+                            <!-- Straw -->
+                            <path d="M40 15 L40 120" stroke="#FF80AB" stroke-width="6" stroke-linecap="round" />
+                            <!-- Bubbles -->
+                            <circle cx="30" cy="125" r="4" fill="#333" />
+                            <circle cx="40" cy="130" r="4" fill="#333" />
+                            <circle cx="50" cy="125" r="4" fill="#333" />
+                            <circle cx="35" cy="115" r="4" fill="#333" />
+                            <circle cx="45" cy="120" r="4" fill="#333" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Lavender Milk Tea</h3>
+                        <p class="text-gray-600 mb-4">Soothing lavender-infused milk tea with tapioca pearls.</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-marshy-blue font-bold">12oz: $5.99</span><br>
+                                <span class="text-marshy-blue font-bold">16oz: $6.99</span>
+                            </div>
+                            <div>
+                                <select class="size-select border rounded p-2 text-sm" data-id="11" data-name="Lavender Milk Tea">
+                                    <option value="12oz-5.99">12oz - $5.99</option>
+                                    <option value="16oz-6.99">16oz - $6.99</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="add-to-cart w-full bg-marshy-pink hover:bg-pink-600 text-white py-2 px-4 rounded-full" 
+                                data-id="11" 
+                                data-name="Lavender Milk Tea" 
+                                data-type="drink">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bubble Tea 6 -->
+                <div class="bubble-tea bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-b from-marshy-lightpink to-marshy-lightblue flex items-center justify-center">
+                        <svg width="80" height="150" viewBox="0 0 80 150" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cup -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#FFF" stroke="#DDD" stroke-width="1" />
+                            <!-- Tea -->
+                            <path d="M20 30 L15 130 Q15 140, 25 140 L55 140 Q65 140, 65 130 L60 30 Z" fill="#795548" fill-opacity="0.7" stroke="none" />
+                            <!-- Lid -->
+                            <path d="M15 30 L65 30 L62 20 L18 20 Z" fill="#795548" stroke="#795548" stroke-width="1" />
+                            <!-- Straw -->
+                            <path d="M40 15 L40 120" stroke="#FF80AB" stroke-width="6" stroke-linecap="round" />
+                            <!-- Bubbles -->
+                            <circle cx="30" cy="125" r="4" fill="#333" />
+                            <circle cx="40" cy="130" r="4" fill="#333" />
+                            <circle cx="50" cy="125" r="4" fill="#333" />
+                            <circle cx="35" cy="115" r="4" fill="#333" />
+                            <circle cx="45" cy="120" r="4" fill="#333" />
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Classic Milk Tea</h3>
+                        <p class="text-gray-600 mb-4">Traditional black tea with milk and tapioca pearls.</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-marshy-blue font-bold">12oz: $5.49</span><br>
+                                <span class="text-marshy-blue font-bold">16oz: $6.49</span>
+                            </div>
+                            <div>
+                                <select class="size-select border rounded p-2 text-sm" data-id="12" data-name="Classic Milk Tea">
+                                    <option value="12oz-5.49">12oz - $5.49</option>
+                                    <option value="16oz-6.49">16oz - $6.49</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="add-to-cart w-full bg-marshy-pink hover:bg-pink-600 text-white py-2 px-4 rounded-full" 
+                                data-id="12" 
+                                data-name="Classic Milk Tea" 
+                                data-type="drink">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-marshy-pink mb-2">Visit Us</h2>
+                <p class="text-gray-600">Come experience the sweetness at Marshy Sweet!</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2 bg-gray-50 p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-marshy-blue mb-4">Store Information</h3>
+                    <div class="flex items-start mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-marshy-pink mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <div>
+                            <p class="font-medium">Address:</p>
+                            <p class="text-gray-600">346 Palisade Ave, Bogota, NJ 07603</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-marshy-pink mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <p class="font-medium">Hours:</p>
+                            <p class="text-gray-600">Monday - Saturday: 10am - 8pm</p>
+                            <p class="text-gray-600">Sunday: 12pm - 6pm</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-marshy-pink mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        <div>
+                            <p class="font-medium">Phone:</p>
+                            <p class="text-gray-600">(201) 555-1234</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-marshy-pink mr-3 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <div>
+                            <p class="font-medium">Email:</p>
+                            <p class="text-gray-600">info@marshysweet.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="text-xl font-bold text-marshy-blue mb-4">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="https://instagram.com/Marshy_sweet" target="_blank" class="text-marshy-pink hover:text-pink-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-marshy-pink hover:text-pink-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-marshy-pink hover:text-pink-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="bg-gray-200 rounded-lg shadow-md h-full flex items-center justify-center p-4">
+                        <!-- Simple map placeholder -->
+                        <div class="w-full h-full bg-white rounded-lg p-4 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gray-100">
+                                <!-- Simple map SVG -->
+                                <svg width="100%" height="100%" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect width="800" height="600" fill="#E3F2FD" />
+                                    
+                                    <!-- Roads -->
+                                    <path d="M0 300 H800" stroke="#BDBDBD" stroke-width="20" />
+                                    <path d="M400 0 V600" stroke="#BDBDBD" stroke-width="15" />
+                                    
+                                    <!-- Buildings -->
+                                    <rect x="100" y="100" width="80" height="80" fill="#FFCCBC" stroke="#FF8A65" stroke-width="2" />
+                                    <rect x="220" y="150" width="100" height="60" fill="#FFCCBC" stroke="#FF8A65" stroke-width="2" />
+                                    <rect x="150" y="400" width="120" height="90" fill="#FFCCBC" stroke="#FF8A65" stroke-width="2" />
+                                    <rect x="500" y="120" width="90" height="110" fill="#FFCCBC" stroke="#FF8A65" stroke-width="2" />
+                                    <rect x="620" y="200" width="70" height="70" fill="#FFCCBC" stroke="#FF8A65" stroke-width="2" />
+                                    <rect x="550" y="400" width="150" height="80" fill="#FFCCBC" stroke="#FF8A65" stroke-width="2" />
+                                    
+                                    <!-- Store location -->
+                                    <circle cx="400" cy="300" r="25" fill="#FF80AB" stroke="#FF4081" stroke-width="5" />
+                                    <text x="400" y="305" font-family="Arial" font-size="12" text-anchor="middle" fill="white" font-weight="bold">MS</text>
+                                    
+                                    <!-- Label -->
+                                    <rect x="320" y="340" width="160" height="40" rx="20" fill="white" stroke="#FF80AB" stroke-width="2" />
+                                    <text x="400" y="365" font-family="Arial" font-size="14" text-anchor="middle" fill="#FF80AB" font-weight="bold">Marshy Sweet</text>
+                                </svg>
+                            </div>
+                            <div class="absolute bottom-4 left-4 bg-white p-2 rounded shadow">
+                                <p class="text-sm font-bold text-marshy-pink">346 Palisade Ave, Bogota, NJ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-marshy-pink">Your Sweet Cart</h2>
+                    <button id="closeCartBtn" class="text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div id="cartItems" class="mb-6">
+                    <!-- Cart items will be inserted here -->
+                    <div class="text-center text-gray-500 py-8">Your cart is empty</div>
+                </div>
+                
+                <div class="border-t pt-4">
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium">Tax (6.625%):</span>
+                        <span id="tax">$0.00</span>
+                    </div>
+                    <div class="flex justify-between mb-4">
+                        <span class="font-bold text-lg">Total:</span>
+                        <span id="total" class="font-bold text-lg">$0.00</span>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h3 class="text-lg font-bold text-marshy-blue mb-2">Order Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 mb-1">Name</label>
+                            <input type="text" id="customerName" class="w-full border rounded-lg p-2" placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-1">Phone</label>
+                            <input type="text" id="customerPhone" class="w-full border rounded-lg p-2" placeholder="Your Phone Number">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-1">Email</label>
+                        <input type="email" id="customerEmail" class="w-full border rounded-lg p-2" placeholder="Your Email">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-1">Order Type</label>
+                        <div class="flex space-x-4">
+                            <label class="flex items-center">
+                                <input type="radio" name="orderType" value="pickup" checked class="mr-2">
+                                <span>Pickup</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="orderType" value="delivery" class="mr-2">
+                                <span>Delivery</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="pickupTimeContainer" class="mb-4">
+                        <label class="block text-gray-700 mb-1">Pickup Time</label>
+                        <select id="pickupTime" class="w-full border rounded-lg p-2">
+                            <option value="">Select a time</option>
+                            <option value="ASAP">As soon as possible</option>
+                            <option value="30min">In 30 minutes</option>
+                            <option value="1hour">In 1 hour</option>
+                            <option value="2hours">In 2 hours</option>
+                        </select>
+                    </div>
+                    
+                    <div id="deliveryAddressContainer" class="mb-4 hidden">
+                        <label class="block text-gray-700 mb-1">Delivery Address</label>
+                        <textarea id="deliveryAddress" class="w-full border rounded-lg p-2" rows="3" placeholder="Your Address"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-1">Special Instructions</label>
+                        <textarea id="specialInstructions" class="w-full border rounded-lg p-2" rows="2" placeholder="Any special requests?"></textarea>
+                    </div>
+                    
+                    <button id="checkoutBtn" class="w-full bg-marshy-pink hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition">
+                        Complete Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Order Confirmation Modal -->
+    <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Order Confirmed!</h2>
+                <p class="text-gray-600 mb-6">Thank you for your order. We've sent a confirmation to your email.</p>
+                <p id="orderSummary" class="text-sm text-gray-500 mb-6">Your order will be ready for pickup soon.</p>
+                <button id="closeConfirmationBtn" class="bg-marshy-blue hover:bg-blue-400 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <svg class="w-10 h-10" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="#FFF" />
+                            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Poppins" font-weight="bold" font-size="20" fill="#FF80AB">MS</text>
+                            <path d="M50 10 A40 40 0 1 1 49.9 10" fill="none" stroke="#81D4FA" stroke-width="5" stroke-dasharray="5,5" />
+                        </svg>
+                        <div class="ml-3">
+                            <h3 class="text-xl font-bold">Marshy Sweet</h3>
+                            <p class="text-xs">Candy Store & Bubble Tea</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-gray-400">Bringing sweetness to your day!</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                            <li><a href="#candy" class="text-gray-400 hover:text-white">Candy</a></li>
+                            <li><a href="#bubbletea" class="text-gray-400 hover:text-white">Bubble Tea</a></li>
+                            <li><a href="#contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-bold mb-4">Contact</h4>
+                        <ul class="space-y-2">
+                            <li class="text-gray-400">346 Palisade Ave</li>
+                            <li class="text-gray-400">Bogota, NJ 07603</li>
+                            <li class="text-gray-400">(201) 555-1234</li>
+                            <li class="text-gray-400">info@marshysweet.com</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-span-2 md:col-span-1">
+                        <h4 class="text-lg font-bold mb-4">Hours</h4>
+                        <ul class="space-y-2">
+                            <li class="text-gray-400">Monday - Saturday: 10am - 8pm</li>
+                            <li class="text-gray-400">Sunday: 12pm - 6pm</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2023 Marshy Sweet. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <a href="https://instagram.com/Marshy_sweet" target="_blank" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Shopping cart functionality
+        let cart = [];
+        
+        // DOM elements
+        const cartBtn = document.getElementById('cartBtn');
+        const cartModal = document.getElementById('cartModal');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const subtotalEl = document.getElementById('subtotal');
+        const taxEl = document.getElementById('tax');
+        const totalEl = document.getElementById('total');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const closeConfirmationBtn = document.getElementById('closeConfirmationBtn');
+        const orderSummary = document.getElementById('orderSummary');
+        
+        // Add to cart buttons
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                const price = parseFloat(button.getAttribute('data-price'));
+                const type = button.getAttribute('data-type');
+                
+                // For drinks, get the selected size
+                let size = '';
+                let sizePrice = price;
+                
+                if (type === 'drink') {
+                    const sizeSelect = document.querySelector(`.size-select[data-id="${id}"]`);
+                    const sizeOption = sizeSelect.value.split('-');
+                    size = sizeOption[0];
+                    sizePrice = parseFloat(sizeOption[1]);
+                }
+                
+                // Check if item is already in cart
+                const existingItem = cart.find(item => 
+                    item.id === id && (type !== 'drink' || item.size === size)
+                );
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        price: sizePrice,
+                        quantity: 1,
+                        type,
+                        size,
+                        comments: ''
+                    });
+                }
+                
+                updateCart();
+                
+                // Show notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 right-4 bg-marshy-pink text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-bounce';
+                notification.textContent = 'Added to cart!';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 2000);
+            });
+        });
+        
+        // Update cart display
+        function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update cart items display
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="text-center text-gray-500 py-8">Your cart is empty</div>';
+            } else {
+                cartItems.innerHTML = '';
+                
+                cart.forEach((item, index) => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex justify-between items-center py-3 border-b';
+                    
+                    const itemName = item.size ? `${item.name} (${item.size})` : item.name;
+                    
+                    itemEl.innerHTML = `
+                        <div class="flex-1">
+                            <h4 class="font-medium">${itemName}</h4>
+                            <p class="text-sm text-gray-500">$${item.price.toFixed(2)} each</p>
+                            ${item.type === 'drink' ? `
+                                <div class="mt-1">
+                                    <input type="text" class="item-comment border rounded p-1 text-sm w-full" 
+                                           placeholder="Special instructions" 
+                                           data-index="${index}" 
+                                           value="${item.comments}">
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="flex items-center">
+                            <button class="decrease-quantity bg-gray-200 hover:bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center" data-index="${index}">-</button>
+                            <span class="mx-2">${item.quantity}</span>
+                            <button class="increase-quantity bg-gray-200 hover:bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center" data-index="${index}">+</button>
+                            <span class="ml-4 font-medium">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button class="remove-item ml-4 text-red-500 hover:text-red-700" data-index="${index}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                    
+                    cartItems.appendChild(itemEl);
+                });
+                
+                // Add event listeners for quantity buttons and comments
+                document.querySelectorAll('.decrease-quantity').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const index = parseInt(button.getAttribute('data-index'));
+                        if (cart[index].quantity > 1) {
+                            cart[index].quantity -= 1;
+                        } else {
+                            cart.splice(index, 1);
+                        }
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.increase-quantity').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const index = parseInt(button.getAttribute('data-index'));
+                        cart[index].quantity += 1;
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const index = parseInt(button.getAttribute('data-index'));
+                        cart.splice(index, 1);
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.item-comment').forEach(input => {
+                    input.addEventListener('input', () => {
+                        const index = parseInt(input.getAttribute('data-index'));
+                        cart[index].comments = input.value;
+                    });
+                });
+            }
+            
+            // Update totals
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.06625;
+            const total = subtotal + tax;
+            
+            subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            taxEl.textContent = `$${tax.toFixed(2)}`;
+            totalEl.textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Cart modal toggle
+        cartBtn.addEventListener('click', () => {
+            cartModal.classList.remove('hidden');
+        });
+        
+        closeCartBtn.addEventListener('click', () => {
+            cartModal.classList.add('hidden');
+        });
+        
+        // Order type toggle
+        const orderTypeRadios = document.querySelectorAll('input[name="orderType"]');
+        const pickupTimeContainer = document.getElementById('pickupTimeContainer');
+        const deliveryAddressContainer = document.getElementById('deliveryAddressContainer');
+        
+        orderTypeRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.value === 'pickup') {
+                    pickupTimeContainer.classList.remove('hidden');
+                    deliveryAddressContainer.classList.add('hidden');
+                } else {
+                    pickupTimeContainer.classList.remove('hidden');
+                    deliveryAddressContainer.classList.remove('hidden');
+                }
+            });
+        });
+        
+        // Checkout process
+        checkoutBtn.addEventListener('click', () => {
+            // Validate form
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const customerEmail = document.getElementById('customerEmail').value;
+            const orderType = document.querySelector('input[name="orderType"]:checked').value;
+            const pickupTime = document.getElementById('pickupTime').value;
+            const deliveryAddress = document.getElementById('deliveryAddress').value;
+            
+            if (!customerName || !customerPhone || !customerEmail || !pickupTime) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            if (orderType === 'delivery' && !deliveryAddress) {
+                alert('Please enter your delivery address');
+                return;
+            }
+            
+            // Check if cart has drinks and candy for delivery
+            const hasDrinks = cart.some(item => item.type === 'drink');
+            const hasCandy = cart.some(item => item.type === 'candy');
+            
+            if (orderType === 'delivery' && hasDrinks) {
+                alert('Bubble tea is available for pickup only. Please change your order type or remove bubble tea items.');
+                return;
+            }
+            
+            // Simulate order submission
+            const orderDetails = {
+                customer: {
+                    name: customerName,
+                    phone: customerPhone,
+                    email: customerEmail
+                },
+                orderType,
+                pickupTime,
+                deliveryAddress: orderType === 'delivery' ? deliveryAddress : '',
+                specialInstructions: document.getElementById('specialInstructions').value,
+                items: cart,
+                subtotal: parseFloat(subtotalEl.textContent.replace('$', '')),
+                tax: parseFloat(taxEl.textContent.replace('$', '')),
+                total: parseFloat(totalEl.textContent.replace('$', ''))
+            };
+            
+            // In a real application, you would send this data to your server
+            console.log('Order submitted:', orderDetails);
+            
+            // Show confirmation
+            cartModal.classList.add('hidden');
+            confirmationModal.classList.remove('hidden');
+            
+            // Set order summary
+            const orderTypeText = orderType === 'pickup' ? 'pickup' : 'delivery';
+            orderSummary.textContent = `Your order will be ready for ${orderTypeText} ${pickupTime === 'ASAP' ? 'as soon as possible' : 'at the selected time'}.`;
+            
+            // Clear cart
+            cart = [];
+            updateCart();
+        });
+        
+        closeConfirmationBtn.addEventListener('click', () => {
+            confirmationModal.classList.add('hidden');
+        });
+        
+        // Initialize cart
+        updateCart();
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96780a67c05e2dae',t:'MTc1MzkxMTkwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
