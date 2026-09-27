@@ -1,0 +1,9 @@
+{
+  "name": "Marshy Sweet",
+  "short_name": "Marshy Sweet",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#702568",
+  "theme_color": "#702568",
+  "description": "Candy, bubble tea, coffee, rewards and ordering."
+}
