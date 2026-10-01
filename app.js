@@ -1,13 +1,26 @@
-const products = [
-  { id: 1, name: 'Strawberry Cloud Boba', category: 'Boba Tea', price: 7.99, emoji: '🧋', detail: 'Creamy strawberry milk tea with chewy tapioca pearls.' },
-  { id: 2, name: 'Brown Sugar Boba', category: 'Boba Tea', price: 7.99, emoji: '🥤', detail: 'Caramelized brown sugar, fresh milk and warm boba.' },
-  { id: 3, name: 'Matcha Latte', category: 'Tea', price: 6.49, emoji: '🍵', detail: 'Premium matcha whisked smooth with milk.' },
-  { id: 4, name: 'Vanilla Cold Brew', category: 'Coffee', price: 5.99, emoji: '☕', detail: 'Slow-steeped coffee with vanilla cold foam.' },
-  { id: 5, name: 'Rainbow Candy Mix', category: 'Bulk Candy', price: 10.99, emoji: '🍬', detail: 'Build your own colorful candy mix, priced per pound.' },
-  { id: 6, name: 'Sour Party Mix', category: 'Bulk Candy', price: 10.99, emoji: '🍭', detail: 'A bright blend of sour gummies and belts.' },
-  { id: 7, name: 'Sweet Gift Box', category: 'Gift Set', price: 24.99, emoji: '🎁', detail: 'A customizable gift box filled with favorites.' },
-  { id: 8, name: 'Marshy Plush', category: 'Fun Stuff', price: 14.99, emoji: '🧸', detail: 'A soft Marshy Sweet collectible plush.' }
-];
+let products = [];
+let managedCategories = [];
+let catalogError = "";
+let heroBannerUrl = "";
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+const picture = (url, fallback) => url ? `<img src="${escapeHTML(url)}" alt="" loading="lazy" style="width:100%;height:100%;max-height:280px;object-fit:contain" />` : escapeHTML(fallback);
+async function refreshCatalog() {
+  try {
+    const response = await fetch("https://www.marshysweets.com/api/catalog", {cache:"no-store"});
+    if (!response.ok) throw new Error("Catalog unavailable");
+    const data = await response.json();
+    if (data.schemaVersion !== 1 || !Array.isArray(data.products) || !Array.isArray(data.categories)) throw new Error("Invalid catalog");
+    products = data.products.map(item => ({...item, detail:item.description || "", imageUrl:item.imageUrl || (item.slug === "gift-bags" ? data.settings?.giftSetImageUrl : null)}));
+    heroBannerUrl = data.settings?.heroBannerUrl || "";
+    managedCategories = data.categories;
+    state.selectedProduct = products.find(item => item.id === state.selectedProduct?.id) || products[0];
+    catalogError = "";
+    render();
+  } catch {
+    catalogError = "Store updates could not load. Check your connection and reopen the app.";
+    render();
+  }
+}
 
 const state = {
   screen: localStorage.getItem('marshy-signed-in') ? 'home' : 'login',
@@ -33,7 +46,7 @@ function shell(content, active = 'home', withSearch = false) {
   return `<div class="phone">
     <header class="topbar"><div class="mini-logo"><span class="mini-mark">MS</span><span>MARSHY SWEET</span></div><button class="icon-btn" data-action="drawer" aria-label="Open menu">☰</button></header>
     ${withSearch ? `<div class="search"><input aria-label="Search products" placeholder="Search Marshy Sweet" value="${state.query}" data-action="search" /></div>` : ''}
-    ${content}
+    ${catalogError ? `<p role="alert" style="padding:16px">${catalogError}</p>` : ""}${content}
     ${bottomNav(active)}
     ${state.drawer ? drawer() : ''}
   </div>`;
@@ -41,17 +54,17 @@ function shell(content, active = 'home', withSearch = false) {
 
 function bottomNav(active) {
   return `<nav class="bottom-nav" aria-label="Main navigation">
-    ${[['home','⌂','Home'],['rewards','☆','Rewards'],['cart','🛒','Cart'],['profile','♙','Profile']].map(([id,icon,label]) => `<button class="nav-item ${active===id?'active':''}" data-screen="${id}"><span>${icon}</span><span>${label}</span></button>`).join('')}
+    ${[['home','⌂','Home'],['rewards','☆','Rewards'],['cart','🛒','Cart'],['profile','♙','Profile']].map(([id,icon,label]) => `<button class="nav-item ${active===id?'active':''}" data-screen="${escapeHTML(id)}"><span>${icon}</span><span>${escapeHTML(label)}</span></button>`).join('')}
   </nav>`;
 }
 
 function drawer() {
-  const main = [['category:Boba Tea','Boba Tea'],['category:Tea','Tea'],['category:Coffee','Coffee'],['category:Bulk Candy','Candy Kits']];
+  const main = managedCategories.map(item => ['category:' + item.name, item.name, item.imageUrl]);
   const account = [['edit-profile','Edit Profile'],['payment','Payment Methods'],['settings','Settings'],['orders','Order History'],['favorites','Favorites']];
   return `<div class="drawer-backdrop" data-action="close-drawer"><aside class="drawer" onclick="event.stopPropagation()">
     <button class="icon-btn" data-action="close-drawer" aria-label="Close menu">×</button><h2>Menu</h2>
-    <div class="menu-group">${main.map(([id,label])=>`<button class="menu-item" data-screen="${id}"><span>${label}</span><span>›</span></button>`).join('')}</div>
-    <div class="menu-group">${account.map(([id,label])=>`<button class="menu-item" data-screen="${id}"><span>${label}</span><span>›</span></button>`).join('')}</div>
+    <div class="menu-group">${main.map(([id,label,image])=>`<button class="menu-item" data-screen="${escapeHTML(id)}">${image ? `<img src="${escapeHTML(image)}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:8px" />` : ""}<span>${escapeHTML(label)}</span><span>›</span></button>`).join('')}</div>
+    <div class="menu-group">${account.map(([id,label])=>`<button class="menu-item" data-screen="${escapeHTML(id)}"><span>${escapeHTML(label)}</span><span>›</span></button>`).join('')}</div>
   </aside></div>`;
 }
 
@@ -70,25 +83,26 @@ function auth() {
 }
 
 function productCards(list) {
-  return `<div class="grid">${list.map(p => `<article class="card"><button class="card-art wide" data-product="${p.id}" aria-label="View ${p.name}">${p.emoji}</button><div class="card-body"><h3>${p.name}</h3><p>${p.detail}</p><div class="price-row"><span>${money(p.price)}</span><button class="round-add" data-add="${p.id}" aria-label="Add ${p.name}">+</button></div></div></article>`).join('')}</div>`;
+  return `<div class="grid">${list.map(p => `<article class="card"><button class="card-art wide" data-product="${p.id}" aria-label="View ${escapeHTML(p.name)}">${picture(p.imageUrl, p.emoji)}</button><div class="card-body"><h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.detail)}</p><div class="price-row"><span>${money(p.price)}</span><button class="round-add" data-add="${p.id}" aria-label="Add ${escapeHTML(p.name)}">+</button></div></div></article>`).join('')}</div>`;
 }
 
 function home() {
   const shown = products.filter(p => p.name.toLowerCase().includes(state.query.toLowerCase()) || p.category.toLowerCase().includes(state.query.toLowerCase())).slice(0,4);
-  return shell(`<div class="content"><div class="hero"><h2>WELCOME BACK, SWEET FRIEND</h2><p>Your next favorite treat is waiting.</p></div>
+  return shell(`<div class="content">${heroBannerUrl ? `<img src="${escapeHTML(heroBannerUrl)}" alt="Marshy Sweet featured banner" style="width:100%;height:180px;object-fit:cover;border-radius:16px" />` : ""}<div class="hero"><h2>WELCOME BACK, SWEET FRIEND</h2><p>Your next favorite treat is waiting.</p></div>
     <p class="eyebrow">Reward points</p><div class="reward-row">${[1,2,3,4,5].map((x,i)=>`<span class="reward-dot ${i<3?'filled':''}">${i<3?'★':x}</span>`).join('')}</div>
     <div class="section-title"><h2>Recently ordered</h2><button class="link" data-screen="orders">View all</button></div>${productCards(shown)}</div>`, 'home', true);
 }
 
 function category(name) {
   const list = name === 'all' ? products : products.filter(p => p.category === name || (name==='Tea' && p.category==='Boba Tea'));
-  return shell(`<div class="content"><div class="hero"><h2>${name.toUpperCase()}</h2><p>Made fresh, colorful and full of joy.</p></div><div class="section-title"><h2>${name}</h2><span>${list.length} items</span></div>${productCards(list)}</div>`, 'home', true);
+  return shell(`<div class="content"><div class="hero"><h2>${escapeHTML(name.toUpperCase())}</h2><p>Made fresh, colorful and full of joy.</p></div><div class="section-title"><h2>${escapeHTML(name)}</h2><span>${list.length} items</span></div>${productCards(list)}</div>`, 'home', true);
 }
 
 function detail() {
   const p = state.selectedProduct;
+  if (!p) return home();
   const favorite = state.favorites.includes(p.id);
-  return shell(`<div class="content"><button class="link" data-action="back">‹ Back</button><div class="detail-art">${p.emoji}</div><div class="section-title"><div><p class="eyebrow">${p.category}</p><h2>${p.name}</h2></div><button class="icon-btn" data-favorite="${p.id}" aria-label="Favorite">${favorite?'♥':'♡'}</button></div><p>${p.detail}</p><div class="panel"><div class="line-item"><strong>Size</strong><span>Regular</span></div><div class="line-item"><strong>Price</strong><span>${money(p.price)}</span></div></div><div class="line-item"><div class="qty"><button data-action="qty-down">−</button><strong id="detailQty">1</strong><button data-action="qty-up">+</button></div><button class="primary" data-add="${p.id}">ADD TO CART</button></div></div>`, 'home');
+  return shell(`<div class="content"><button class="link" data-action="back">‹ Back</button><div class="detail-art">${picture(p.imageUrl, p.emoji)}</div><div class="section-title"><div><p class="eyebrow">${escapeHTML(p.category)}</p><h2>${escapeHTML(p.name)}</h2></div><button class="icon-btn" data-favorite="${p.id}" aria-label="Favorite">${favorite?'♥':'♡'}</button></div><p>${escapeHTML(p.detail)}</p><div class="panel"><div class="line-item"><strong>Size</strong><span>Regular</span></div><div class="line-item"><strong>Price</strong><span>${money(p.price)}</span></div></div><div class="line-item"><div class="qty"><button data-action="qty-down">−</button><strong id="detailQty">1</strong><button data-action="qty-up">+</button></div><button class="primary" data-add="${p.id}">ADD TO CART</button></div></div>`, 'home');
 }
 
 function cart() {
@@ -109,7 +123,7 @@ function rewards() {
 }
 
 function profile() {
-  return shell(`<div class="content"><div class="brand" style="color:var(--plum);margin:12px 0 22px"><div class="brand-mark">MS</div><h1>MARSHY FRIEND</h1><p style="color:var(--muted)">marshysweetbogota@gmail.com</p></div><div class="menu-group">${[['edit-profile','Edit profile'],['orders','Order history'],['favorites','Favorites'],['payment','Payment methods'],['settings','Settings']].map(([id,label])=>`<button class="menu-item" data-screen="${id}"><span>${label}</span><span>›</span></button>`).join('')}</div></div>`, 'profile');
+  return shell(`<div class="content"><div class="brand" style="color:var(--plum);margin:12px 0 22px"><div class="brand-mark">MS</div><h1>MARSHY FRIEND</h1><p style="color:var(--muted)">marshysweetbogota@gmail.com</p></div><div class="menu-group">${[['edit-profile','Edit profile'],['orders','Order history'],['favorites','Favorites'],['payment','Payment methods'],['settings','Settings']].map(([id,label])=>`<button class="menu-item" data-screen="${escapeHTML(id)}"><span>${escapeHTML(label)}</span><span>›</span></button>`).join('')}</div></div>`, 'profile');
 }
 
 function favorites() {
@@ -126,7 +140,7 @@ function payment() {
 }
 
 function settings() {
-  return shell(`<div class="content"><h1 class="eyebrow">Settings</h1><div class="menu-group">${[['edit-profile','Edit profile'],['change-password','Change password'],['privacy','Privacy policy'],['help','Help center']].map(([id,label])=>`<button class="menu-item" data-screen="${id}"><span>${label}</span><span>›</span></button>`).join('')}</div><button class="outline-btn wide" style="color:var(--plum)" data-action="logout">LOG OUT</button></div>`, 'profile');
+  return shell(`<div class="content"><h1 class="eyebrow">Settings</h1><div class="menu-group">${[['edit-profile','Edit profile'],['change-password','Change password'],['privacy','Privacy policy'],['help','Help center']].map(([id,label])=>`<button class="menu-item" data-screen="${escapeHTML(id)}"><span>${escapeHTML(label)}</span><span>›</span></button>`).join('')}</div><button class="outline-btn wide" style="color:var(--plum)" data-action="logout">LOG OUT</button></div>`, 'profile');
 }
 
 function privacy() { return shell(`<div class="content"><h1 class="eyebrow">Privacy policy</h1><div class="panel"><p>Marshy Sweet uses account and order information to prepare purchases, provide pickup or delivery updates, manage rewards, and support customers. Payment details are handled by approved payment providers and are not stored in this experience.</p><p>You can request access, correction, or deletion of account information through Help Center.</p></div></div>`, 'profile'); }
@@ -173,7 +187,7 @@ document.addEventListener('click', event => {
   const target = event.target.closest('button,[data-action]'); if (!target) return;
   if (target.dataset.screen) { state.previous=state.screen; state.screen=target.dataset.screen; state.drawer=false; render(); return; }
   if (target.dataset.product) { state.previous=state.screen; state.selectedProduct=products.find(p=>p.id===Number(target.dataset.product)); state.screen='detail'; render(); return; }
-  if (target.dataset.add) { const p=products.find(x=>x.id===Number(target.dataset.add)); const existing=state.cart.find(x=>x.id===p.id); existing?existing.qty++:state.cart.push({...p,qty:1}); save(); toast(`${p.name} added to cart`); return; }
+  if (target.dataset.add) { const p=products.find(x=>x.id===Number(target.dataset.add)); const existing=state.cart.find(x=>x.id===p.id); existing?existing.qty++:state.cart.push({...p,qty:1}); save(); toast(`${escapeHTML(p.name)} added to cart`); return; }
   if (target.dataset.favorite) { const id=Number(target.dataset.favorite); state.favorites=state.favorites.includes(id)?state.favorites.filter(x=>x!==id):[...state.favorites,id]; save(); render(); return; }
   if (target.dataset.remove) { state.cart=state.cart.filter(x=>x.id!==Number(target.dataset.remove)); save(); render(); return; }
   if (target.dataset.delivery) { state.delivery=target.dataset.delivery; render(); return; }
@@ -190,4 +204,6 @@ document.addEventListener('click', event => {
 });
 
 render();
+void refreshCatalog();
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') void refreshCatalog(); });
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
